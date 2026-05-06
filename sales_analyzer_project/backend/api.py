@@ -1,23 +1,27 @@
-# backend/api.py - FIXED VERSION
+# backend/api.py
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-import joblib
+
 import pandas as pd
 import numpy as np
-from pydantic import BaseModel
-from typing import List, Dict, Optional
-import os
-from datetime import datetime, timedelta
+import joblib
 import json
+import os
+import shap
 
-# Initialize FastAPI app
+from datetime import timedelta
+
+# ==================== FASTAPI ====================
+
 app = FastAPI(
-    title="Sales Prediction API",
-    description="ML-powered sales forecasting system",
-    version="1.0.0"
+    title="NeuralSales API",
+    description="Enterprise ML Forecast Intelligence",
+    version="3.0.0"
 )
 
-# Enable CORS
+# ==================== CORS ====================
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -26,190 +30,364 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Define paths
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, "..", "models", "sales_model.pkl")
-FEATURES_PATH = os.path.join(BASE_DIR, "..", "models", "feature_cols.json")
-DATA_PATH = os.path.join(BASE_DIR, "..", "data", "sales_data.csv")
+# ==================== PATHS ====================
 
-# Global variables
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+MODEL_PATH = os.path.join(
+    BASE_DIR,
+    "..",
+    "models",
+    "sales_model.pkl"
+)
+
+FEATURES_PATH = os.path.join(
+    BASE_DIR,
+    "..",
+    "models",
+    "feature_cols.json"
+)
+
+MODEL_RESULTS_PATH = os.path.join(
+    BASE_DIR,
+    "..",
+    "models",
+    "model_results.pkl"
+)
+
+DATA_PATH = os.path.join(
+    BASE_DIR,
+    "..",
+    "data",
+    "sales_data.csv"
+)
+
+# ==================== GLOBAL VARIABLES ====================
+
 model = None
 feature_cols = []
+model_results = None
 df = None
-latest_data = None
+X = None
+
+# ==================== STARTUP ====================
 
 @app.on_event("startup")
-async def load_model():
-    global model, feature_cols, df, latest_data
-    
-    print("\n" + "="*60)
-    print("🚀 LOADING MODEL AND DATA")
-    print("="*60)
-    
-    try:
-        # Load feature columns FIRST
-        if os.path.exists(FEATURES_PATH):
-            with open(FEATURES_PATH, 'r') as f:
-                feature_cols = json.load(f)
-            print(f"✅ Features loaded: {len(feature_cols)} features")
-            print(f"   Features: {feature_cols}")
-        
-        # Load model
-        if os.path.exists(MODEL_PATH):
-            model = joblib.load(MODEL_PATH)
-            print(f"✅ Model loaded from {MODEL_PATH}")
-            
-            # Verify feature count matches
-            if hasattr(model, 'n_features_in_'):
-                print(f"   Model expects {model.n_features_in_} features")
-                if len(feature_cols) != model.n_features_in_:
-                    print(f"⚠️ WARNING: Feature count mismatch!")
-        
-        # Load latest data
-        if os.path.exists(DATA_PATH):
-            df = pd.read_csv(DATA_PATH)
-            df['date'] = pd.to_datetime(df['date'])
-            df = df.sort_values('date').reset_index(drop=True)
-            latest_data = df.tail(60).copy()
-            print(f"✅ Data loaded: {len(df)} days")
-            print(f"   Date range: {df['date'].min()} to {df['date'].max()}")
-        else:
-            print("⚠️ Data file not found")
-            
-    except Exception as e:
-        print(f"❌ Error loading: {e}")
+async def startup_event():
 
-# Health check
+    global model
+    global feature_cols
+    global model_results
+    global df
+    global X
+
+    print("\n" + "=" * 60)
+    print("🚀 LOADING NEURALSALES BACKEND")
+    print("=" * 60)
+
+    try:
+
+        # ================= LOAD MODEL =================
+
+        if os.path.exists(MODEL_PATH):
+
+            model = joblib.load(MODEL_PATH)
+
+            print("✅ Model loaded")
+
+        else:
+            print("❌ sales_model.pkl not found")
+
+        # ================= LOAD FEATURES =================
+
+        if os.path.exists(FEATURES_PATH):
+
+            with open(FEATURES_PATH, "r") as f:
+
+                feature_cols = json.load(f)
+
+            print(f"✅ Features loaded ({len(feature_cols)})")
+
+        else:
+            print("❌ feature_cols.json not found")
+
+        # ================= LOAD MODEL RESULTS =================
+
+        if os.path.exists(MODEL_RESULTS_PATH):
+
+            model_results = joblib.load(MODEL_RESULTS_PATH)
+
+            print("✅ Model comparison results loaded")
+
+        else:
+            print("❌ model_results.pkl not found")
+
+        # ================= LOAD DATA =================
+
+        if os.path.exists(DATA_PATH):
+
+            df = pd.read_csv(DATA_PATH)
+
+            df['date'] = pd.to_datetime(df['date'])
+
+            df = df.sort_values('date')
+
+            X = df[feature_cols]
+
+            print(f"✅ Data loaded ({len(df)} rows)")
+
+        else:
+            print("❌ sales_data.csv not found")
+
+        print("=" * 60)
+
+    except Exception as e:
+
+        print(f"❌ STARTUP ERROR: {e}")
+
+# ==================== HEALTH CHECK ====================
+
 @app.get("/health")
-def health_check():
+def health():
+
     return {
         "status": "healthy",
         "model_loaded": model is not None,
         "features_loaded": len(feature_cols) > 0,
         "data_loaded": df is not None,
-        "feature_count": len(feature_cols) if feature_cols else 0,
+        "feature_count": len(feature_cols),
         "data_days": len(df) if df is not None else 0
     }
 
-# 30-day forecast endpoint - FIXED VERSION
+# ==================== FORECAST ====================
+
 @app.get("/forecast/30day")
-async def forecast_30day():
-    """Generate 30-day forecast using latest data"""
-    
-    if model is None or df is None:
-        raise HTTPException(status_code=503, detail="Model or data not loaded")
-    
-    if not feature_cols:
-        raise HTTPException(status_code=503, detail="Feature list not loaded")
-    
+def forecast_30day():
+
+    if model is None:
+        raise HTTPException(
+            status_code=500,
+            detail="Model not loaded"
+        )
+
     try:
-        # Generate future dates
-        last_date = df['date'].max()
-        future_dates = [last_date + timedelta(days=i+1) for i in range(30)]
-        
-        # Get latest data
-        latest = df.tail(60).copy()
-        
-        # Make predictions
+
+        latest = df.tail(30).copy()
+
+        future_dates = [
+            latest['date'].max() + timedelta(days=i)
+            for i in range(1, 31)
+        ]
+
         predictions = []
-        for i, date in enumerate(future_dates):
-            # Create a dictionary with ALL features the model expects
+
+        latest_sales = latest['sales'].tolist()
+
+        for i, future_date in enumerate(future_dates):
+
             features = {}
-            
-            # Fill with appropriate values for each feature
+
             for col in feature_cols:
+
+                # ================= DATE FEATURES =================
+
                 if col == 'day_of_week':
-                    features[col] = date.weekday()
+                    features[col] = future_date.weekday()
+
                 elif col == 'month':
-                    features[col] = date.month
+                    features[col] = future_date.month
+
                 elif col == 'year':
-                    features[col] = date.year
+                    features[col] = future_date.year
+
                 elif col == 'is_weekend':
-                    features[col] = 1 if date.weekday() >= 5 else 0
+                    features[col] = (
+                        1 if future_date.weekday() >= 5 else 0
+                    )
+
                 elif col == 'is_holiday_season':
-                    features[col] = 1 if date.month in [11, 12] else 0
+                    features[col] = (
+                        1 if future_date.month in [11, 12] else 0
+                    )
+
+                # ================= STATIC FEATURES =================
+
                 elif col == 'discount':
-                    features[col] = float(latest['discount'].mean())
+                    features[col] = float(df['discount'].mean())
+
                 elif col == 'customers':
-                    features[col] = int(latest['customers'].mean())
+                    features[col] = int(df['customers'].mean())
+
                 elif col == 'quantity':
-                    features[col] = int(latest['quantity'].mean())
+                    features[col] = int(df['quantity'].mean())
+
+                # ================= LAG FEATURES =================
+
                 elif col == 'sales_lag_1':
-                    if i == 0:
-                        features[col] = float(latest['sales'].iloc[-1])
-                    else:
-                        features[col] = float(predictions[i-1])
+                    features[col] = latest_sales[-1]
+
                 elif col == 'sales_lag_7':
-                    if i < 7:
-                        features[col] = float(latest['sales'].iloc[-7 + i])
-                    else:
-                        features[col] = float(predictions[i-7])
+                    features[col] = latest_sales[-7]
+
                 elif col == 'sales_lag_30':
-                    if i < 30:
-                        features[col] = float(latest['sales'].iloc[-30 + i])
-                    else:
-                        features[col] = float(predictions[i-30])
+                    features[col] = latest_sales[-30]
+
+                # ================= ROLLING FEATURES =================
+
                 elif col == 'sales_rolling_7':
-                    if i == 0:
-                        features[col] = float(latest['sales'].iloc[-7:].mean())
-                    else:
-                        # Combine historical and predicted
-                        hist_part = latest['sales'].iloc[-(7-i):].tolist() if i < 7 else []
-                        pred_part = predictions[max(0, i-7):i]
-                        combined = hist_part + pred_part
-                        features[col] = float(np.mean(combined)) if combined else 0.0
+                    features[col] = np.mean(latest_sales[-7:])
+
                 elif col == 'sales_rolling_30':
-                    if i == 0:
-                        features[col] = float(latest['sales'].tail(30).mean())
-                    else:
-                        hist_part = latest['sales'].iloc[-(30-i):].tolist() if i < 30 else []
-                        pred_part = predictions[max(0, i-30):i]
-                        combined = hist_part + pred_part
-                        features[col] = float(np.mean(combined)) if combined else 0.0
+                    features[col] = np.mean(latest_sales[-30:])
+
                 else:
-                    # Default value for any other features
-                    features[col] = 0.0
-            
-            # Create DataFrame with EXACT feature order
-            features_df = pd.DataFrame([features])[feature_cols]
-            
-            # Predict
-            pred = float(model.predict(features_df)[0])
+                    features[col] = 0
+
+            # ================= PREDICT =================
+
+            input_df = pd.DataFrame([features])
+
+            input_df = input_df[feature_cols]
+
+            pred = float(model.predict(input_df)[0])
+
             predictions.append(pred)
-        
-        # Calculate bounds
+
+            latest_sales.append(pred)
+
         lower_bounds = [p * 0.85 for p in predictions]
+
         upper_bounds = [p * 1.15 for p in predictions]
-        
+
         return {
-            "dates": [d.strftime('%Y-%m-%d') for d in future_dates],
+
+            "dates": [
+                d.strftime("%Y-%m-%d")
+                for d in future_dates
+            ],
+
             "predictions": predictions,
+
             "lower_bounds": lower_bounds,
+
             "upper_bounds": upper_bounds,
+
             "total": float(sum(predictions)),
+
             "average": float(np.mean(predictions))
         }
-        
-    except Exception as e:
-        import traceback
-        print(f"❌ Error in forecast: {str(e)}")
-        print(traceback.format_exc())
-        raise HTTPException(status_code=500, detail=str(e))
 
-# Model info endpoint
+    except Exception as e:
+
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )
+
+# ==================== MODEL INFO ====================
+
 @app.get("/model/info")
 def model_info():
+
     if model is None:
-        raise HTTPException(status_code=503, detail="Model not loaded")
-    
+
+        raise HTTPException(
+            status_code=500,
+            detail="Model not loaded"
+        )
+
     return {
+
         "model_type": type(model).__name__,
+
         "features": feature_cols,
+
         "n_features": len(feature_cols),
-        "n_estimators": getattr(model, 'n_estimators', None),
-        "max_depth": getattr(model, 'max_depth', None)
+
+        "n_estimators": getattr(
+            model,
+            "n_estimators",
+            None
+        ),
+
+        "max_depth": getattr(
+            model,
+            "max_depth",
+            None
+        )
     }
 
+# ==================== MODEL COMPARISON ====================
+@app.get("/model-comparison")
+
+def model_comparison():
+
+    if model_results is None:
+
+        raise HTTPException(
+            status_code=500,
+            detail="Model comparison data not loaded"
+        )
+
+    return model_results.to_dict(
+        orient="records"
+    )
+
+# ==================== SHAP ANALYSIS ====================
+
+@app.get("/model/shap")
+def shap_analysis():
+
+    if model is None:
+
+        raise HTTPException(
+            status_code=500,
+            detail="Model not loaded"
+        )
+
+    # SHAP only works properly on tree models
+
+    if not hasattr(model, "feature_importances_"):
+
+        return {
+            "features": feature_cols,
+            "importance": [1 / len(feature_cols)] * len(feature_cols)
+        }
+
+    try:
+
+        sample = X.tail(50)
+
+        explainer = shap.TreeExplainer(model)
+
+        shap_values = explainer.shap_values(sample)
+
+        importance = np.abs(
+            shap_values
+        ).mean(axis=0)
+
+        return {
+
+            "features": feature_cols,
+
+            "importance": importance.tolist()
+        }
+
+    except Exception as e:
+
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )
+
+# ==================== MAIN ====================
+
 if __name__ == "__main__":
+
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+
+    uvicorn.run(
+        app,
+        host="0.0.0.0",
+        port=8000
+    )
