@@ -1,366 +1,141 @@
-# ⚡ NeuralSales · Forecast Intelligence
+# ⚡ NeuralSales — AI-Powered Sales Forecast Intelligence Platform
 
-![Python](https://img.shields.io/badge/Python-3.10-blue?style=flat-square&logo=python)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.104-green?style=flat-square&logo=fastapi)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.30-red?style=flat-square&logo=streamlit)
-![Plotly](https://img.shields.io/badge/Plotly-5.18-purple?style=flat-square&logo=plotly)
-![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.3-orange?style=flat-square&logo=scikit-learn)
-![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
+NeuralSales is an advanced end-to-end Machine Learning powered sales forecasting and analytics platform built using:
 
-> **A Premium ML-Powered Sales Forecasting & Analytics Platform**
+- Streamlit
+- FastAPI
+- Scikit-learn
+- XGBoost
+- SHAP Explainability
+- Plotly
+- Pandas
+- NumPy
 
-[Features](#features) • [Architecture](#architecture) • [ML Model](#ml-model) • [Tech Stack](#tech-stack) • [Installation](#installation) • [API Docs](#api-docs)
+The project combines:
+- predictive analytics
+- supervised machine learning
+- explainable AI
+- interactive dashboards
+- model comparison
+- forecasting intelligence
 
----
-
-# 📌 Project Overview
-
-**NeuralSales** is an enterprise-grade machine learning powered sales analytics and forecasting platform built using:
-
-- **Streamlit** for interactive frontend dashboards
-- **FastAPI** for backend APIs
-- **Scikit-learn** for machine learning forecasting
-- **Plotly** for advanced interactive visualizations
-
-The platform delivers intelligent 30-day sales forecasting with confidence intervals, advanced KPI analytics, feature importance analysis, and interactive forecasting dashboards for modern business intelligence workflows.
+into a production-style ML analytics platform.
 
 ---
 
-# 💡 What It Does
+# 🚀 Features
 
-| Capability | Description |
-|---|---|
-| **30-Day Forecasting** | Predicts future daily sales with confidence intervals |
-| **Performance Analytics** | Analyses sales trends, customer behavior, and revenue growth |
-| **Interactive Dashboard** | Premium UI dashboard with live KPI metrics |
-| **Model Insights** | Displays feature importance, MAE, RMSE, and prediction accuracy |
-| **Backend Monitoring** | Real-time FastAPI backend status monitoring |
-| **CSV Export** | Export historical and forecast datasets |
-
----
-
-# 🎯 Project Aims
-
-> *"To build a modern AI-powered forecasting intelligence platform that combines premium analytics dashboards with practical machine learning forecasting."*
-
-## Key Objectives
-
-- ✅ Deliver accurate 30-day sales forecasting
-- ✅ Provide interactive business intelligence dashboards
-- ✅ Visualize ML model performance transparently
-- ✅ Enable real-time forecasting workflows
-- ✅ Build an enterprise-grade UI/UX experience
-
----
-
-# ✨ Features
-
-## 📈 Interactive Dashboard
-
-- Dynamic KPI cards
-- Sales trend visualization
+## 📈 Advanced Sales Dashboard
+- Interactive sales analytics
+- KPI cards
+- Revenue tracking
+- Customer insights
+- Trend analysis
 - Moving averages
 - Bollinger bands
-- Revenue heatmaps
-- Customer vs sales analysis
-- Discount impact analysis
-- Date-range filtering
+- Monthly heatmaps
+- Correlation analysis
 
 ---
 
-## 🔮 ML Forecasting
-
-- 30-day forecast generation
-- Confidence interval prediction
-- Forecast trend analysis
-- Growth-rate visualization
-- Peak-day forecasting
-- Forecast export CSV
-
----
-
-## 🤖 Model Insights
-
-- Feature importance analysis
-- Prediction accuracy evaluation
-- Residual distribution analysis
-- MAE / RMSE / R² metrics
-- Scatter visualization of predictions
+## 🔮 30-Day AI Forecasting
+Machine learning powered future sales forecasting with:
+- confidence intervals
+- upper/lower prediction bounds
+- trend analysis
+- growth rate visualization
+- peak demand detection
 
 ---
 
-## ⚙️ System Features
+## 🤖 Multi-Model ML Training Pipeline
 
-- Backend health monitoring
-- FastAPI integration
-- Configurable confidence interval
-- Model retraining trigger
-- Cache clearing utilities
-- Auto-generated synthetic demo data
+The platform trains and compares multiple supervised ML models:
 
----
-
-# 🏗️ Architecture
-
-## System Architecture
-
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                    NeuralSales Platform                     │
-│                 Forecast Intelligence System                │
-└─────────────────────────────────────────────────────────────┘
-                              │
-              ┌───────────────┴───────────────┐
-              ▼                               ▼
-   ┌──────────────────┐            ┌──────────────────────┐
-   │ STREAMLIT UI     │            │ FASTAPI BACKEND      │
-   │ (Port 8501)      │◄──REST────►│ (Port 8000)          │
-   │                  │            │                      │
-   │ • Dashboard      │            │ • /forecast/30day    │
-   │ • Forecast       │            │ • /model/info        │
-   │ • Insights       │            │ • /health            │
-   │ • Settings       │            │ • /model/retrain     │
-   └──────────────────┘            └──────────┬───────────┘
-                                              │
-                    ┌─────────────────────────┤
-                    ▼                         ▼
-         ┌──────────────────┐      ┌──────────────────────┐
-         │ ML ENGINE        │      │ DATA LAYER           │
-         │                  │      │                      │
-         │ • Random Forest  │      │ • Historical CSV     │
-         │ • Forecast Logic │      │ • Feature Store      │
-         │ • Metrics Engine │      │ • Forecast Outputs   │
-         └──────────────────┘      └──────────────────────┘
-```
-
----
-
-## Frontend Architecture
-
-```text
-┌─────────────────────────────────────────────┐
-│            STREAMLIT FRONTEND               │
-└─────────────────────────────────────────────┘
-                      │
-    ┌─────────────────┼─────────────────┐
-    ▼                 ▼                 ▼
-┌────────┐      ┌──────────┐     ┌──────────┐
-│ Pages  │      │Components│     │ Utilities│
-│        │      │          │     │          │
-│ Dash   │      │ KPI Cards│     │ API Call │
-│ Forecast│     │ Charts   │     │ CSV Exp. │
-│ Insights│     │ Filters  │     │ Caching  │
-└────────┘      └──────────┘     └──────────┘
-```
-
----
-
-## Backend Architecture
-
-```text
-┌─────────────────────────────────────────────┐
-│              FASTAPI BACKEND                │
-└─────────────────────────────────────────────┘
-                      │
-    ┌─────────────────┼──────────────────┐
-    ▼                 ▼                  ▼
-┌─────────┐    ┌───────────┐     ┌──────────────┐
-│ ROUTERS │    │ SERVICES  │     │ MODELS       │
-│         │    │           │     │              │
-│/forecast│    │ Forecast  │     │ Pydantic     │
-│/health  │    │ Analytics │     │ Schemas      │
-│/model   │    │ Metrics   │     │ Responses    │
-└─────────┘    └───────────┘     └──────────────┘
-```
-
----
-
-# 🤖 ML Model
-
-## Forecasting Workflow
-
-```text
-Historical Sales Data
-        │
-        ▼
-Feature Engineering
-        │
-        ▼
-Lag Features + Rolling Means
-        │
-        ▼
-Random Forest Regressor
-        │
-        ▼
-30-Day Forecast Generation
-        │
-        ▼
-Confidence Interval Estimation
-        │
-        ▼
-Interactive Dashboard Visualization
-```
-
----
-
-## Feature Engineering
-
-```text
-Raw Date Column
-      │
-      ├──► Day of Week
-      ├──► Month
-      ├──► Year
-      ├──► Weekend Detection
-      ├──► Lag Features
-      ├──► Rolling Averages
-      ├──► Seasonal Signals
-      └──► Discount Impact
-```
-
----
-
-## Model Metrics
-
-| Metric | Performance |
+| Model | Type |
 |---|---|
-| **MAE** | Low |
-| **RMSE** | Low |
-| **R² Score** | ~0.85+ |
-| **Forecast Accuracy** | ~87% |
-| **Confidence Interval** | 90–95% |
+| Linear Regression | Linear Model |
+| Lasso Regression | Regularized Linear |
+| Ridge Regression | Regularized Linear |
+| Decision Tree | Tree-Based |
+| Random Forest | Ensemble Bagging |
+| Gradient Boosting | Boosting |
+| AdaBoost | Ensemble Boosting |
+| Extra Trees | Randomized Ensemble |
+| SVR | Kernel-Based |
+| XGBoost | Advanced Gradient Boosting |
 
 ---
 
-# 🛠️ Tech Stack
-
-## Backend Technologies
-
-| Technology | Purpose |
-|---|---|
-| FastAPI | REST API Backend |
-| Uvicorn | ASGI Server |
-| Scikit-learn | Machine Learning |
-| Pandas | Data Processing |
-| NumPy | Numerical Operations |
+## 📊 Model Comparison Engine
+Dynamic backend-powered model comparison dashboard:
+- R² comparison
+- RMSE analysis
+- MAE analysis
+- Accuracy metrics
+- Cross-validation scores
+- Best model selection
 
 ---
 
-## Frontend Technologies
-
-| Technology | Purpose |
-|---|---|
-| Streamlit | Interactive Dashboard |
-| Plotly | Interactive Charts |
-| HTML/CSS | Custom UI Styling |
-
----
-
-## ML Algorithms
-
-| Algorithm | Use Case |
-|---|---|
-| Random Forest Regressor | Sales Forecasting |
-| Statistical Trend Analysis | Growth Analysis |
-| Rolling Window Analytics | Time-Series Insights |
+## 🧠 Explainable AI (XAI)
+Integrated SHAP Explainability:
+- feature importance analysis
+- model interpretability
+- prediction reasoning
+- transparent ML decisions
 
 ---
 
-# ⚙️ Installation
+## ⚙️ FastAPI Backend
+Production-style backend architecture:
+- REST APIs
+- ML inference engine
+- dynamic forecasting
+- model serving
+- health monitoring
+- JSON endpoints
+
+---
+
+## 🎨 Premium Dark UI
+Custom enterprise-grade UI featuring:
+- futuristic dark theme
+- neon cyber aesthetics
+- interactive Plotly charts
+- animated KPI cards
+- responsive layout
+- professional dashboard design
+
+---
+
+# 🧠 Machine Learning Concepts Used
+
+This project demonstrates practical implementation of:
+
+- Supervised Learning
+- Regression Models
+- Ensemble Learning
+- Boosting Algorithms
+- Regularization
+- Time Series Forecasting
+- Cross Validation
+- Feature Engineering
+- Explainable AI
+- Model Evaluation
+- Residual Analysis
+- Bias-Variance Tradeoff
+- Forecast Confidence Intervals
+
+---
+
+# 📂 Project Structure
 
 ```bash
-# 1. Clone Repository
-git clone https://github.com/yourusername/neuralsales.git
-
-cd neuralsales
-```
-
----
-
-```bash
-# 2. Create Virtual Environment
-python -m venv venv
-```
-
-### Activate Environment
-
-#### Windows
-
-```bash
-venv\Scripts\activate
-```
-
-#### Linux / Mac
-
-```bash
-source venv/bin/activate
-```
-
----
-
-```bash
-# 3. Install Dependencies
-pip install -r requirements.txt
-```
-
----
-
-# 🚀 Running the Project
-
-## Start Backend
-
-```bash
-cd backend
-
-uvicorn api:app --reload --host 0.0.0.0 --port 8000
-```
-
----
-
-## Start Frontend
-
-Open another terminal:
-
-```bash
-cd frontend
-
-streamlit run app.py
-```
-
----
-
-# 📡 API Docs
-
-Once backend is running:
-
-```text
-Swagger UI  →  http://localhost:8000/docs
-ReDoc       →  http://localhost:8000/redoc
-```
-
----
-
-## Key Endpoints
-
-```text
-GET    /health
-GET    /forecast/30day
-GET    /model/info
-POST   /model/retrain
-```
-
----
-
-# 📁 Project Structure
-
-```text
 sales_analyzer_project/
 │
 ├── backend/
-│   ├── api.py
-│   ├── services/
-│   ├── models/
-│   └── routes/
+│   └── api.py
 │
 ├── frontend/
 │   └── app.py
@@ -370,69 +145,226 @@ sales_analyzer_project/
 │
 ├── models/
 │   ├── sales_model.pkl
-│   └── feature_cols.json
+│   ├── feature_cols.json
+│   └── model_results.pkl
 │
-├── requirements.txt
+├── outputs/
+│   ├── feature_importance.png
+│   ├── actual_vs_predicted.png
+│   └── residual_distribution.png
+│
+├── train_model.py
+│
 └── README.md
 ```
 
 ---
 
-# 📊 Model Performance
+# ⚡ Installation
 
-The forecasting engine delivers:
+## 1️⃣ Clone Repository
 
-- ~87% forecasting accuracy
-- Stable 30-day prediction capability
-- Confidence interval forecasting
-- Low RMSE & MAE
-- Interactive prediction explainability
+```bash
+git clone https://github.com/yourusername/neuralsales.git
 
----
-
-# 🎨 UI Highlights
-
-- Premium neon dashboard UI
-- Enterprise dark theme
-- Responsive layout
-- Animated KPI cards
-- Interactive Plotly charts
-- Modern forecasting dashboard design
+cd neuralsales
+```
 
 ---
 
-# 🔥 Future Enhancements
+## 2️⃣ Create Virtual Environment
 
-- LSTM forecasting
-- Transformer-based models
-- Real-time streaming analytics
-- Database integration
-- Multi-user authentication
+```bash
+python -m venv venv
+```
+
+Activate:
+
+### Windows
+```bash
+venv\Scripts\activate
+```
+
+### Linux/Mac
+```bash
+source venv/bin/activate
+```
+
+---
+
+## 3️⃣ Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+# ▶️ Running the Project
+
+---
+
+## 1️⃣ Train Models
+
+```bash
+python train_model.py
+```
+
+This generates:
+
+```bash
+models/sales_model.pkl
+models/model_results.pkl
+models/feature_cols.json
+```
+
+---
+
+## 2️⃣ Start Backend
+
+```bash
+cd backend
+
+uvicorn api:app --reload
+```
+
+Backend runs at:
+
+```bash
+http://localhost:8000
+```
+
+---
+
+## 3️⃣ Start Frontend
+
+Open another terminal:
+
+```bash
+cd frontend
+
+streamlit run app.py
+```
+
+Frontend runs at:
+
+```bash
+http://localhost:8501
+```
+
+---
+
+# 📡 API Endpoints
+
+| Endpoint | Description |
+|---|---|
+| `/health` | Backend health check |
+| `/forecast/30day` | 30-day ML forecast |
+| `/model/info` | Model metadata |
+| `/model-comparison` | Dynamic model comparison |
+| `/model/shap` | Explainable AI insights |
+
+---
+
+# 📊 Evaluation Metrics
+
+The platform evaluates models using:
+
+- MAE
+- RMSE
+- R² Score
+- Cross Validation
+- Forecast Accuracy
+
+---
+
+# 🧠 Explainable AI
+
+SHAP analysis helps visualize:
+- feature contributions
+- prediction drivers
+- model reasoning
+- feature importance ranking
+
+---
+
+# 📈 Visualization Stack
+
+- Plotly
+- Plotly Graph Objects
+- Plotly Express
+- Matplotlib
+- Seaborn
+
+---
+
+# 🔥 Advanced Highlights
+
+✅ Dynamic ML Model Comparison  
+✅ Production-style Backend APIs  
+✅ Explainable AI Integration  
+✅ Forecast Confidence Bands  
+✅ Real-time Forecast Visualization  
+✅ Advanced Ensemble Models  
+✅ Enterprise Dashboard UI  
+✅ Time-Series Aware Validation  
+✅ Feature Engineering Pipeline  
+✅ Cross Validation System  
+
+---
+
+# 🛠 Tech Stack
+
+## Frontend
+- Streamlit
+- Plotly
+- HTML/CSS
+
+## Backend
+- FastAPI
+- Uvicorn
+
+## ML & Data
+- Scikit-learn
+- XGBoost
+- SHAP
+- Pandas
+- NumPy
+
+---
+
+# 📸 Screenshots
+
+Add screenshots here:
+- Dashboard
+- Forecast Page
+- Model Comparison
+- Explainable AI
+- Model Insights
+
+---
+
+# 🚀 Future Improvements
+
+- LightGBM integration
+- CatBoost integration
+- Real-time streaming forecasts
+- Authentication system
+- Docker deployment
 - Cloud deployment
-- AI anomaly detection
-
----
-
-# 📜 License
-
-MIT License
+- CI/CD pipeline
+- Auto retraining
+- Hyperparameter optimization
+- Drift detection
 
 ---
 
 # 👨‍💻 Author
 
-**Nikunj Katta**  
-AI/ML Developer · Forecast Intelligence Enthusiast
+Nikunj Katta
 
 ---
 
-# ⭐ Final Note
+# ⭐ If you like this project
 
-NeuralSales combines:
-
-- Machine learning forecasting
-- Interactive analytics
-- Premium UI engineering
-- Real-time business intelligence
-
-into one modern AI-powered forecasting platform.
+Give it a star on GitHub ⭐
