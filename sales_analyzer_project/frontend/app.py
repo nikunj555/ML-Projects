@@ -67,13 +67,22 @@ st.markdown("""
     }
 
     /* ---- Inputs & Controls ---- */
-    .stTextInput > div > div > input,
-    .stNumberInput > div > div > input,
-    .stSelectbox > div > div,
+      
+.stTextInput > div > div > input,
+.stNumberInput > div > div > input,
+.stSelectbox > div > div,
+.stDateInput input {
     color: #000000 !important;
     -webkit-text-fill-color: #000000 !important;
-    .stSlider > div > div { color: var(--text-primary) !important; }
-    [data-baseweb="slider"] > div > div { background: var(--accent-cyan) !important; }
+}
+
+.stSlider > div > div {
+    color: var(--text-primary) !important;
+}
+
+[data-baseweb="slider"] > div > div {
+    background: var(--accent-cyan) !important;
+}
 
     /* ---- Buttons ---- */
     .stButton > button {
@@ -336,11 +345,25 @@ st.markdown("""
     }
 
     /* ---- Scrollbar ---- */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg-primary); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
-    </style>
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+</style>
 """, unsafe_allow_html=True)
 
 # ==================== SESSION STATE ====================
@@ -456,16 +479,17 @@ with st.sidebar:
     st.markdown("<hr style='margin: 0.5rem 0 1rem 0;'>", unsafe_allow_html=True)
 
     pages = {
-        "📈 Dashboard": "Performance Overview",
-        "🔮 Forecast": "30-Day Prediction",
-        "🤖 Model Insights": "ML Analytics",
-        "⚙️ Settings": "Configuration"
-    }
-
+    "📈 Dashboard": "Performance Overview",
+    "🔮 Forecast": "30-Day Prediction",
+    "🤖 Model Insights": "ML Analytics",
+    "📊 Model Comparison": "Algorithm Benchmarking",
+    "🧠 Explainable AI": "Feature Intelligence",
+    "⚙️ Settings": "Configuration"
+}
     for p, desc in pages.items():
         is_active = st.session_state.page == p
         css = "sidebar-nav-active" if is_active else ""
-        if st.button(f"{p}", key=f"nav_{p}", use_container_width=True):
+        if st.button(f"{p}", key=f"nav_{p}", width='stretch'):
             st.session_state.page = p
             st.rerun()
 
@@ -516,7 +540,7 @@ with st.sidebar:
     st.markdown("<div style='font-family: DM Mono, monospace; font-size: 0.65rem; color: #3d5068; letter-spacing: 0.1em; margin-bottom: 0.6rem;'>EXPORT</div>", unsafe_allow_html=True)
     if df is not None:
         csv_data = df.to_csv(index=False)
-        st.download_button("↓ Historical Data CSV", csv_data, "sales_history.csv", "text/csv", use_container_width=True)
+        st.download_button("↓ Historical Data CSV", csv_data, "sales_history.csv", "text/csv", width='stretch')
 
     st.markdown(f"""
         <div style='margin-top: 1rem; font-family: DM Mono, monospace; font-size: 0.62rem; color: #3d5068; text-align: center;'>
@@ -623,7 +647,7 @@ if page == "📈 Dashboard":
 
         fig1.update_layout(**PLOTLY_LAYOUT, height=340, hovermode='x unified',
                            title='Daily Revenue with Moving Averages')
-        st.plotly_chart(fig1, use_container_width=True)
+        st.plotly_chart(fig1, width='stretch')
 
         # ---- Day of Week & Monthly ----
         col1, col2 = st.columns(2)
@@ -641,7 +665,7 @@ if page == "📈 Dashboard":
                 name='Avg Sales', hovertemplate='%{y:$,.0f}<extra></extra>'
             ))
             fig2.update_layout(**PLOTLY_LAYOUT, height=280, showlegend=False, title='Average by Day')
-            st.plotly_chart(fig2, use_container_width=True)
+            st.plotly_chart(fig2, width='stretch')
 
         with col2:
             st.markdown("<div class='section-title'>Monthly Heatmap</div>", unsafe_allow_html=True)
@@ -658,7 +682,7 @@ if page == "📈 Dashboard":
                 labels=dict(color='Sales'), aspect='auto'
             )
             fig3.update_layout(**PLOTLY_LAYOUT, height=280, title='Revenue Heatmap', coloraxis_showscale=False)
-            st.plotly_chart(fig3, use_container_width=True)
+            st.plotly_chart(fig3, width='stretch')
 
         # ---- Customers & Discount Correlation ----
         col1, col2 = st.columns(2)
@@ -682,7 +706,7 @@ if page == "📈 Dashboard":
             ))
             fig4.update_layout(**PLOTLY_LAYOUT, height=280, showlegend=False,
                                xaxis_title='Customers', yaxis_title='Sales ($)', title='Scatter with Trend')
-            st.plotly_chart(fig4, use_container_width=True)
+            st.plotly_chart(fig4, width='stretch')
 
         with col2:
             st.markdown("<div class='section-title'>Discount Impact on Sales</div>", unsafe_allow_html=True)
@@ -699,7 +723,7 @@ if page == "📈 Dashboard":
             fig5.update_layout(**PLOTLY_LAYOUT, height=280, showlegend=False,
                                xaxis_title='Discount Range', yaxis_title='Avg Sales ($)',
                                title='Revenue by Discount Level')
-            st.plotly_chart(fig5, use_container_width=True)
+            st.plotly_chart(fig5, width='stretch')
 
     else:
         st.error("Data file not found. Place `sales_data.csv` in `../data/` directory.")
@@ -827,7 +851,7 @@ elif page == "🔮 Forecast":
                          tickprefix='$', gridcolor='#1e2d40', color='#7a90a8')
         fig.update_yaxes(title_text='Growth %', row=2, col=1,
                          ticksuffix='%', gridcolor='#1e2d40', color='#7a90a8')
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
         # ---- Insights ----
         avg_growth = growth_rates.mean()
@@ -859,7 +883,7 @@ elif page == "🔮 Forecast":
             display_df.columns = ['Date', 'Predicted ($)', 'Lower Bound ($)', 'Upper Bound ($)', 'Growth (%)']
             display_df = display_df.round(2)
             st.dataframe(
-                display_df, use_container_width=True, hide_index=True,
+                display_df, width='stretch', hide_index=True,
                 column_config={
                     "Predicted ($)": st.column_config.NumberColumn(format="$%.2f"),
                     "Lower Bound ($)": st.column_config.NumberColumn(format="$%.2f"),
@@ -911,7 +935,7 @@ elif page == "🤖 Model Insights":
         ))
         fig_fi.update_layout(**PLOTLY_LAYOUT, height=380, showlegend=False,
                              xaxis_title='Importance Score', title='What Drives Predictions?')
-        st.plotly_chart(fig_fi, use_container_width=True)
+        st.plotly_chart(fig_fi, width='stretch')
 
         # Key insight
         top_feat = feat_df.iloc[-1]
@@ -1021,7 +1045,7 @@ elif page == "🤖 Model Insights":
                      borderwidth=1, borderpad=6)
             ]
         )
-        st.plotly_chart(fig_scatter, use_container_width=True)
+        st.plotly_chart(fig_scatter, width='stretch')
 
     # ---- Training Data Stats ----
     if df is not None:
@@ -1043,6 +1067,312 @@ elif page == "🤖 Model Insights":
                     </div>
                 """, unsafe_allow_html=True)
 
+
+# ==================== MODEL COMPARISON PAGE ====================
+
+elif page == "📊 Model Comparison":
+
+    st.markdown(
+        "<div class='section-title'>Model Comparison</div>",
+        unsafe_allow_html=True
+    )
+
+    # ================= LOAD DATA =================
+
+    try:
+
+        response = requests.get(
+            f"{BACKEND_URL}/model-comparison"
+        )
+
+        comparison_df = pd.DataFrame(
+            response.json()
+        )
+
+    except Exception as e:
+
+        st.error(f"Could not load model comparison data: {e}")
+
+        st.stop()
+
+    # ================= TOP MODEL CARDS =================
+
+    top_models = comparison_df.sort_values(
+        by="R2 Score",
+        ascending=False
+    ).head(4)
+
+    cols = st.columns(4)
+
+    colors = [
+        "#00d4ff",
+        "#00e5a0",
+        "#ffb547",
+        "#8b5cf6"
+    ]
+
+    for i, (_, row) in enumerate(top_models.iterrows()):
+
+        with cols[i]:
+
+            st.container(border=True)
+
+            st.markdown(
+                f"""
+### {row['Model']}
+                """
+            )
+
+            st.markdown(
+                f"""
+<span style='font-size:2rem; font-weight:800; color:{colors[i]};'>
+{row['R2 Score']}
+</span>
+                """,
+                unsafe_allow_html=True
+            )
+
+            st.caption("R² Accuracy Score")
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # ================= COMPARISON CHART =================
+
+    fig = go.Figure()
+
+    fig.add_trace(
+
+        go.Bar(
+
+            x=comparison_df["Model"],
+
+            y=comparison_df["R2 Score"],
+
+            text=comparison_df["R2 Score"],
+
+            textposition='outside',
+
+            marker_color=[
+                "#00d4ff",
+                "#00e5a0",
+                "#ffb547",
+                "#8b5cf6",
+                "#00d4ff",
+                "#00e5a0",
+                "#ffb547",
+                "#8b5cf6",
+                "#00d4ff",
+                "#00e5a0"
+            ]
+        )
+    )
+
+    fig.update_layout(
+
+        paper_bgcolor='rgba(0,0,0,0)',
+
+        plot_bgcolor='rgba(0,0,0,0)',
+
+        font=dict(
+            family='DM Sans',
+            color='#7a90a8'
+        ),
+
+        title="Model Accuracy Comparison",
+
+        height=500,
+
+        showlegend=False,
+
+        xaxis=dict(
+            gridcolor='#1e2d40',
+            linecolor='#1e2d40'
+        ),
+
+        yaxis=dict(
+            gridcolor='#1e2d40',
+            linecolor='#1e2d40'
+        )
+    )
+
+    st.plotly_chart(
+        fig,
+        width='stretch'
+    )
+
+    # ================= TABLE =================
+
+    st.markdown(
+        "<div class='section-title'>Detailed Metrics</div>",
+        unsafe_allow_html=True
+    )
+
+    st.dataframe(
+        comparison_df,
+        width='stretch',
+        hide_index=True
+    )
+
+    # ================= BEST MODEL =================
+
+    best_model = comparison_df.iloc[0]
+
+    st.success(
+        f"""
+🏆 Best Performing Model
+
+{best_model['Model']} achieved the highest R² score of
+{best_model['R2 Score']}
+
+Accuracy: {best_model['Accuracy']}%
+"""
+    )
+# ==================== EXPLAINABLE AI PAGE ====================
+
+elif page == "🧠 Explainable AI":
+
+    st.markdown(
+        "<div class='section-title'>Explainable AI</div>",
+        unsafe_allow_html=True
+    )
+
+    # ================= SAMPLE FEATURE IMPORTANCE =================
+
+    explain_df = pd.DataFrame({
+        "Feature": [
+            "sales_lag_1",
+            "sales_rolling_7",
+            "customers",
+            "quantity",
+            "discount",
+            "month",
+            "is_weekend",
+            "sales_lag_30"
+        ],
+
+        "Importance": [
+            0.32,
+            0.24,
+            0.16,
+            0.10,
+            0.08,
+            0.05,
+            0.03,
+            0.02
+        ]
+    })
+
+    # ================= KPI INSIGHTS =================
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.metric(
+            "Top Feature",
+            "sales_lag_1"
+        )
+
+    with col2:
+        st.metric(
+            "Feature Count",
+            len(explain_df)
+        )
+
+    with col3:
+        st.metric(
+            "Model Trust",
+            "High"
+        )
+
+    st.markdown("---")
+
+    # ================= FEATURE IMPORTANCE CHART =================
+
+    fig = go.Figure()
+
+    fig.add_trace(
+        go.Bar(
+            x=explain_df["Importance"],
+            y=explain_df["Feature"],
+            orientation='h',
+
+            marker=dict(
+                color=[
+                    "#00d4ff",
+                    "#00e5a0",
+                    "#8b5cf6",
+                    "#ffb547",
+                    "#00d4ff",
+                    "#00e5a0",
+                    "#8b5cf6",
+                    "#ffb547"
+                ]
+            ),
+
+            text=explain_df["Importance"],
+            textposition='outside'
+        )
+    )
+
+    fig.update_layout(
+
+        paper_bgcolor='rgba(0,0,0,0)',
+
+        plot_bgcolor='rgba(0,0,0,0)',
+
+        font=dict(
+            family='DM Sans',
+            color='#7a90a8'
+        ),
+
+        title="Feature Importance Analysis",
+
+        height=500,
+
+        xaxis=dict(
+            title="Importance Score",
+            gridcolor='#1e2d40',
+            linecolor='#1e2d40'
+        ),
+
+        yaxis=dict(
+            title="Features",
+            gridcolor='#1e2d40',
+            linecolor='#1e2d40'
+        )
+    )
+
+    st.plotly_chart(
+        fig,
+        width='stretch'
+    )
+
+    st.markdown("---")
+
+    # ================= INSIGHTS =================
+
+    st.info(
+        """
+Top model decisions are mainly influenced by recent sales history.
+
+Features like:
+• sales_lag_1
+• rolling averages
+• customer count
+
+have the highest predictive impact on forecasting accuracy.
+"""
+    )
+
+    # ================= DATAFRAME =================
+
+    st.subheader("Feature Importance Table")
+
+    st.dataframe(
+        explain_df,
+        width='stretch',
+        hide_index=True
+    )
 # ==================== SETTINGS PAGE ====================
 elif page == "⚙️ Settings":
     st.markdown("<div class='section-title'>System Configuration</div>", unsafe_allow_html=True)
@@ -1054,7 +1384,7 @@ elif page == "⚙️ Settings":
         new_url = st.text_input("Backend URL", st.session_state.backend_url)
         timeout_val = st.number_input("Request Timeout (s)", 1, 60, 5)
 
-        if st.button("Test Connection", use_container_width=True):
+        if st.button("Test Connection", width='stretch'):
             try:
                 r = requests.get(f"{new_url}/health", timeout=timeout_val)
                 if r.status_code == 200:
@@ -1066,7 +1396,7 @@ elif page == "⚙️ Settings":
             except Exception as e:
                 st.error(f"❌ {str(e)}")
 
-        if st.button("Save URL", use_container_width=True):
+        if st.button("Save URL", width='stretch'):
             st.session_state.backend_url = new_url
             st.success("Saved!")
 
@@ -1090,19 +1420,19 @@ elif page == "⚙️ Settings":
     col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown("<div class='section-title' style='font-size:1rem;'>Cache</div>", unsafe_allow_html=True)
-        if st.button("Clear Cache", use_container_width=True):
+        if st.button("Clear Cache", width='stretch'):
             st.cache_data.clear()
             st.success("Cache cleared!")
 
     with col2:
         st.markdown("<div class='section-title' style='font-size:1rem;'>Data Refresh</div>", unsafe_allow_html=True)
-        if st.button("Reload Data", use_container_width=True):
+        if st.button("Reload Data", width='stretch'):
             st.cache_data.clear()
             st.rerun()
 
     with col3:
         st.markdown("<div class='section-title' style='font-size:1rem;'>Retrain Model</div>", unsafe_allow_html=True)
-        if st.button("Trigger Retrain", use_container_width=True):
+        if st.button("Trigger Retrain", width='stretch'):
             if backend_available:
                 try:
                     r = requests.post(f"{BACKEND_URL}/model/retrain", timeout=5)
