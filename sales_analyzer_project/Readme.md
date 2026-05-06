@@ -13,7 +13,7 @@
 
 ---
 
-## 📌 Project Overview
+# 📌 Project Overview
 
 **NeuralSales** is an enterprise-grade machine learning powered sales analytics and forecasting platform built using:
 
@@ -26,7 +26,7 @@ The platform delivers intelligent 30-day sales forecasting with confidence inter
 
 ---
 
-## 💡 What It Does
+# 💡 What It Does
 
 | Capability | Description |
 |---|---|
@@ -39,11 +39,11 @@ The platform delivers intelligent 30-day sales forecasting with confidence inter
 
 ---
 
-## 🎯 Project Aims
+# 🎯 Project Aims
 
 > *"To build a modern AI-powered forecasting intelligence platform that combines premium analytics dashboards with practical machine learning forecasting."*
 
-### Key Objectives
+## Key Objectives
 
 - ✅ Deliver accurate 30-day sales forecasting
 - ✅ Provide interactive business intelligence dashboards
@@ -53,9 +53,9 @@ The platform delivers intelligent 30-day sales forecasting with confidence inter
 
 ---
 
-## ✨ Features
+# ✨ Features
 
-### 📈 Interactive Dashboard
+## 📈 Interactive Dashboard
 
 - Dynamic KPI cards
 - Sales trend visualization
@@ -68,7 +68,7 @@ The platform delivers intelligent 30-day sales forecasting with confidence inter
 
 ---
 
-### 🔮 ML Forecasting
+## 🔮 ML Forecasting
 
 - 30-day forecast generation
 - Confidence interval prediction
@@ -79,7 +79,7 @@ The platform delivers intelligent 30-day sales forecasting with confidence inter
 
 ---
 
-### 🤖 Model Insights
+## 🤖 Model Insights
 
 - Feature importance analysis
 - Prediction accuracy evaluation
@@ -89,7 +89,7 @@ The platform delivers intelligent 30-day sales forecasting with confidence inter
 
 ---
 
-### ⚙️ System Features
+## ⚙️ System Features
 
 - Backend health monitoring
 - FastAPI integration
@@ -100,8 +100,9 @@ The platform delivers intelligent 30-day sales forecasting with confidence inter
 
 ---
 
-## 🏗️ Architecture
-### System Architecture
+# 🏗️ Architecture
+
+## System Architecture
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -130,7 +131,13 @@ The platform delivers intelligent 30-day sales forecasting with confidence inter
          │ • Forecast Logic │      │ • Feature Store      │
          │ • Metrics Engine │      │ • Forecast Outputs   │
          └──────────────────┘      └──────────────────────┘
-Frontend Architecture
+```
+
+---
+
+## Frontend Architecture
+
+```text
 ┌─────────────────────────────────────────────┐
 │            STREAMLIT FRONTEND               │
 └─────────────────────────────────────────────┘
@@ -144,7 +151,13 @@ Frontend Architecture
 │ Forecast│     │ Charts   │     │ CSV Exp. │
 │ Insights│     │ Filters  │     │ Caching  │
 └────────┘      └──────────┘     └──────────┘
-Backend Architecture
+```
+
+---
+
+## Backend Architecture
+
+```text
 ┌─────────────────────────────────────────────┐
 │              FASTAPI BACKEND                │
 └─────────────────────────────────────────────┘
@@ -158,9 +171,15 @@ Backend Architecture
 │/health  │    │ Analytics │     │ Schemas      │
 │/model   │    │ Metrics   │     │ Responses    │
 └─────────┘    └───────────┘     └──────────────┘
+```
 
-🤖 ML Model
-Forecasting Workflow
+---
+
+# 🤖 ML Model
+
+## Forecasting Workflow
+
+```text
 Historical Sales Data
         │
         ▼
@@ -180,7 +199,13 @@ Confidence Interval Estimation
         │
         ▼
 Interactive Dashboard Visualization
-Feature Engineering
+```
+
+---
+
+## Feature Engineering
+
+```text
 Raw Date Column
       │
       ├──► Day of Week
@@ -191,69 +216,144 @@ Raw Date Column
       ├──► Rolling Averages
       ├──► Seasonal Signals
       └──► Discount Impact
+```
 
-Model Metrics:
-Metric	Performance
-MAE	Low
-RMSE	Low
-R² Score	~0.85+
-Forecast Accuracy	~87%
-Confidence Interval	90–95%
+---
 
-🛠️ Tech Stack
-Backend Technologies
-Technology	Purpose
-FastAPI	REST API Backend
-Uvicorn	ASGI Server
-Scikit-learn	Machine Learning
-Pandas	Data Processing
-NumPy	Numerical Operations
-Frontend Technologies
-Technology	Purpose
-Streamlit	Interactive Dashboard
-Plotly	Interactive Charts
-HTML/CSS	Custom UI Styling
-ML Algorithms
-Algorithm	Use Case
-Random Forest Regressor	Sales Forecasting
-Statistical Trend Analysis	Growth Analysis
-Rolling Window Analytics	Time-Series Insights
+## Model Metrics
 
-⚙️ Installation
+| Metric | Performance |
+|---|---|
+| **MAE** | Low |
+| **RMSE** | Low |
+| **R² Score** | ~0.85+ |
+| **Forecast Accuracy** | ~87% |
+| **Confidence Interval** | 90–95% |
+
+---
+
+# 🛠️ Tech Stack
+
+## Backend Technologies
+
+| Technology | Purpose |
+|---|---|
+| FastAPI | REST API Backend |
+| Uvicorn | ASGI Server |
+| Scikit-learn | Machine Learning |
+| Pandas | Data Processing |
+| NumPy | Numerical Operations |
+
+---
+
+## Frontend Technologies
+
+| Technology | Purpose |
+|---|---|
+| Streamlit | Interactive Dashboard |
+| Plotly | Interactive Charts |
+| HTML/CSS | Custom UI Styling |
+
+---
+
+## ML Algorithms
+
+| Algorithm | Use Case |
+|---|---|
+| Random Forest Regressor | Sales Forecasting |
+| Statistical Trend Analysis | Growth Analysis |
+| Rolling Window Analytics | Time-Series Insights |
+
+---
+
+# ⚙️ Installation
+
+```bash
 # 1. Clone Repository
 git clone https://github.com/yourusername/neuralsales.git
+
 cd neuralsales
+```
+
+---
+
+```bash
 # 2. Create Virtual Environment
 python -m venv venv
-Activate Environment
-Windows
+```
+
+### Activate Environment
+
+#### Windows
+
+```bash
 venv\Scripts\activate
-Linux / Mac
+```
+
+#### Linux / Mac
+
+```bash
 source venv/bin/activate
+```
+
+---
+
+```bash
 # 3. Install Dependencies
 pip install -r requirements.txt
+```
 
-🚀 Running the Project
-Start Backend
+---
+
+# 🚀 Running the Project
+
+## Start Backend
+
+```bash
 cd backend
+
 uvicorn api:app --reload --host 0.0.0.0 --port 8000
+```
 
-Start Frontend
+---
+
+## Start Frontend
+
 Open another terminal:
-cd frontend
-streamlit run app.py
 
-📡 API Docs
+```bash
+cd frontend
+
+streamlit run app.py
+```
+
+---
+
+# 📡 API Docs
+
 Once backend is running:
+
+```text
 Swagger UI  →  http://localhost:8000/docs
 ReDoc       →  http://localhost:8000/redoc
-Key Endpoints
+```
+
+---
+
+## Key Endpoints
+
+```text
 GET    /health
 GET    /forecast/30day
 GET    /model/info
 POST   /model/retrain
+```
 
-📁 Project Structure
+---
+
+# 📁 Project Structure
+
+```text
 sales_analyzer_project/
 │
 ├── backend/
@@ -274,43 +374,65 @@ sales_analyzer_project/
 │
 ├── requirements.txt
 └── README.md
+```
 
-📊 Model Performance
+---
+
+# 📊 Model Performance
+
 The forecasting engine delivers:
-~87% forecasting accuracy
-Stable 30-day prediction capability
-Confidence interval forecasting
-Low RMSE & MAE
-Interactive prediction explainability
 
-🎨 UI Highlights
-Premium neon dashboard UI
-Enterprise dark theme
-Responsive layout
-Animated KPI cards
-Interactive Plotly charts
-Modern forecasting dashboard design
+- ~87% forecasting accuracy
+- Stable 30-day prediction capability
+- Confidence interval forecasting
+- Low RMSE & MAE
+- Interactive prediction explainability
 
-🔥 Future Enhancements
-LSTM forecasting
-Transformer-based models
-Real-time streaming analytics
-Database integration
-Multi-user authentication
-Cloud deployment
-AI anomaly detection
+---
 
-📜 License
+# 🎨 UI Highlights
+
+- Premium neon dashboard UI
+- Enterprise dark theme
+- Responsive layout
+- Animated KPI cards
+- Interactive Plotly charts
+- Modern forecasting dashboard design
+
+---
+
+# 🔥 Future Enhancements
+
+- LSTM forecasting
+- Transformer-based models
+- Real-time streaming analytics
+- Database integration
+- Multi-user authentication
+- Cloud deployment
+- AI anomaly detection
+
+---
+
+# 📜 License
+
 MIT License
 
-👨‍💻 Author
-Nikunj Katta
+---
+
+# 👨‍💻 Author
+
+**Nikunj Katta**  
 AI/ML Developer · Forecast Intelligence Enthusiast
 
-⭐ Final Note
+---
+
+# ⭐ Final Note
+
 NeuralSales combines:
-Machine learning forecasting
-Interactive analytics
-Premium UI engineering
-Real-time business intelligence
+
+- Machine learning forecasting
+- Interactive analytics
+- Premium UI engineering
+- Real-time business intelligence
+
 into one modern AI-powered forecasting platform.
