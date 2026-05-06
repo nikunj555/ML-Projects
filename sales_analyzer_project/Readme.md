@@ -1,131 +1,224 @@
 # ⚡ NeuralSales — AI-Powered Sales Forecast Intelligence Platform
 
-NeuralSales is an advanced end-to-end Machine Learning powered sales forecasting and analytics platform built using:
+NeuralSales is an advanced end-to-end Machine Learning powered sales forecasting and analytics platform built using modern ML engineering and data visualization technologies.
 
-- Streamlit
-- FastAPI
-- Scikit-learn
-- XGBoost
-- SHAP Explainability
-- Plotly
-- Pandas
-- NumPy
+The platform combines:
 
-The project combines:
-- predictive analytics
-- supervised machine learning
-- explainable AI
-- interactive dashboards
-- model comparison
-- forecasting intelligence
+- Supervised Machine Learning
+- Time Series Forecasting
+- Explainable AI
+- Interactive Dashboards
+- Model Comparison
+- Forecast Intelligence
+- Backend API Engineering
 
-into a production-style ML analytics platform.
+into a production-style AI analytics ecosystem.
 
 ---
 
-# 🚀 Features
+# 🚀 Core Features
 
-## 📈 Advanced Sales Dashboard
-- Interactive sales analytics
-- KPI cards
-- Revenue tracking
-- Customer insights
-- Trend analysis
-- Moving averages
-- Bollinger bands
+## 📈 Advanced Sales Analytics Dashboard
+- Real-time KPI monitoring
+- Revenue analytics
+- Customer intelligence
+- Sales trend visualization
 - Monthly heatmaps
 - Correlation analysis
+- Moving averages
+- Bollinger Bands
 
 ---
 
-## 🔮 30-Day AI Forecasting
-Machine learning powered future sales forecasting with:
-- confidence intervals
-- upper/lower prediction bounds
-- trend analysis
-- growth rate visualization
-- peak demand detection
+## 🔮 AI-Powered 30-Day Forecasting
+- Future sales prediction
+- Confidence intervals
+- Growth rate analysis
+- Trend forecasting
+- Peak demand prediction
+- Dynamic prediction bands
 
 ---
 
-## 🤖 Multi-Model ML Training Pipeline
+## 🤖 Multi-Model ML Training Engine
 
-The platform trains and compares multiple supervised ML models:
+The system trains and evaluates multiple supervised ML algorithms:
 
-| Model | Type |
+| Model | Category |
 |---|---|
 | Linear Regression | Linear Model |
 | Lasso Regression | Regularized Linear |
 | Ridge Regression | Regularized Linear |
 | Decision Tree | Tree-Based |
-| Random Forest | Ensemble Bagging |
+| Random Forest | Ensemble Learning |
 | Gradient Boosting | Boosting |
 | AdaBoost | Ensemble Boosting |
 | Extra Trees | Randomized Ensemble |
-| SVR | Kernel-Based |
-| XGBoost | Advanced Gradient Boosting |
+| SVR | Kernel-Based Learning |
+| XGBoost | Advanced Boosting |
 
 ---
 
-## 📊 Model Comparison Engine
-Dynamic backend-powered model comparison dashboard:
+## 📊 Dynamic Model Comparison
 - R² comparison
+- MAE comparison
 - RMSE analysis
-- MAE analysis
-- Accuracy metrics
 - Cross-validation scores
-- Best model selection
+- Best model detection
+- Real backend-integrated comparison engine
 
 ---
 
 ## 🧠 Explainable AI (XAI)
-Integrated SHAP Explainability:
-- feature importance analysis
-- model interpretability
-- prediction reasoning
-- transparent ML decisions
+Integrated SHAP explainability:
+- Feature importance
+- Prediction explainability
+- Model transparency
+- Interpretable AI outputs
 
 ---
 
-## ⚙️ FastAPI Backend
-Production-style backend architecture:
-- REST APIs
-- ML inference engine
-- dynamic forecasting
-- model serving
-- health monitoring
-- JSON endpoints
+## ⚙️ Enterprise Backend APIs
+- FastAPI REST architecture
+- Dynamic ML inference
+- Forecast APIs
+- Model metadata APIs
+- Explainable AI APIs
+- Health monitoring APIs
 
 ---
 
-## 🎨 Premium Dark UI
-Custom enterprise-grade UI featuring:
-- futuristic dark theme
-- neon cyber aesthetics
-- interactive Plotly charts
-- animated KPI cards
-- responsive layout
-- professional dashboard design
+# 🧠 Machine Learning Architecture
+
+## 🔹 Data Processing Pipeline
+
+```text
+Raw Sales Data
+        ↓
+Data Cleaning
+        ↓
+Feature Engineering
+        ↓
+Lag Feature Generation
+        ↓
+Rolling Window Features
+        ↓
+Train/Test Split
+        ↓
+Cross Validation
+        ↓
+Multi-Model Training
+        ↓
+Model Evaluation
+        ↓
+Best Model Selection
+        ↓
+Forecast Generation
+        ↓
+Backend API Serving
+        ↓
+Interactive Dashboard Visualization
+```
 
 ---
 
-# 🧠 Machine Learning Concepts Used
+# 🧩 Feature Engineering Architecture
 
-This project demonstrates practical implementation of:
+The forecasting engine uses advanced engineered features:
 
-- Supervised Learning
-- Regression Models
-- Ensemble Learning
-- Boosting Algorithms
-- Regularization
-- Time Series Forecasting
-- Cross Validation
-- Feature Engineering
-- Explainable AI
-- Model Evaluation
-- Residual Analysis
-- Bias-Variance Tradeoff
-- Forecast Confidence Intervals
+## 📅 Temporal Features
+- day_of_week
+- month
+- year
+- is_weekend
+- is_holiday_season
+
+---
+
+## 📈 Lag Features
+- sales_lag_1
+- sales_lag_7
+- sales_lag_30
+
+---
+
+## 📊 Rolling Statistics
+- sales_rolling_7
+- sales_rolling_30
+
+---
+
+## 🛒 Business Features
+- customers
+- quantity
+- discount
+
+---
+
+# 🧪 Model Training Architecture
+
+## Training Strategy
+- Chronological split
+- TimeSeriesSplit cross validation
+- Multi-model evaluation
+- Ensemble comparison
+- Automatic best model selection
+
+---
+
+## Evaluation Metrics
+- MAE
+- RMSE
+- R² Score
+- Accuracy %
+- Cross Validation Mean
+
+---
+
+# ⚡ Tech Stack
+
+# 🎨 Frontend Stack
+
+| Technology | Usage |
+|---|---|
+| Streamlit | Interactive dashboard |
+| Plotly | Data visualization |
+| Plotly Graph Objects | Advanced charts |
+| HTML/CSS | Custom enterprise UI |
+| Pandas | Data manipulation |
+
+---
+
+# ⚙️ Backend Stack
+
+| Technology | Usage |
+|---|---|
+| FastAPI | REST APIs |
+| Uvicorn | ASGI server |
+| JSON | Data exchange |
+| Joblib | Model serialization |
+
+---
+
+# 🧠 Machine Learning Stack
+
+| Technology | Usage |
+|---|---|
+| Scikit-learn | ML models |
+| XGBoost | Advanced boosting |
+| SHAP | Explainable AI |
+| NumPy | Numerical computation |
+| Pandas | Feature engineering |
+
+---
+
+# 📊 Visualization Stack
+
+| Technology | Usage |
+|---|---|
+| Plotly | Interactive analytics |
+| Matplotlib | Static visualization |
+| Seaborn | Statistical plots |
 
 ---
 
@@ -157,6 +250,18 @@ sales_analyzer_project/
 │
 └── README.md
 ```
+
+---
+
+# 📡 API Endpoints
+
+| Endpoint | Description |
+|---|---|
+| `/health` | Backend health check |
+| `/forecast/30day` | AI sales forecasting |
+| `/model/info` | Model metadata |
+| `/model-comparison` | Dynamic model comparison |
+| `/model/shap` | Explainable AI insights |
 
 ---
 
@@ -202,20 +307,10 @@ pip install -r requirements.txt
 
 # ▶️ Running the Project
 
----
-
 ## 1️⃣ Train Models
 
 ```bash
 python train_model.py
-```
-
-This generates:
-
-```bash
-models/sales_model.pkl
-models/model_results.pkl
-models/feature_cols.json
 ```
 
 ---
@@ -228,17 +323,9 @@ cd backend
 uvicorn api:app --reload
 ```
 
-Backend runs at:
-
-```bash
-http://localhost:8000
-```
-
 ---
 
 ## 3️⃣ Start Frontend
-
-Open another terminal:
 
 ```bash
 cd frontend
@@ -246,116 +333,56 @@ cd frontend
 streamlit run app.py
 ```
 
-Frontend runs at:
-
-```bash
-http://localhost:8501
-```
-
 ---
 
-# 📡 API Endpoints
+# 📈 Dashboard Modules
 
-| Endpoint | Description |
-|---|---|
-| `/health` | Backend health check |
-| `/forecast/30day` | 30-day ML forecast |
-| `/model/info` | Model metadata |
-| `/model-comparison` | Dynamic model comparison |
-| `/model/shap` | Explainable AI insights |
+## 📊 Dashboard
+Business analytics and KPI tracking.
 
----
+## 🔮 Forecast
+30-day ML forecasting engine.
 
-# 📊 Evaluation Metrics
+## 🤖 Model Insights
+Feature importance and ML diagnostics.
 
-The platform evaluates models using:
+## 📊 Model Comparison
+Multi-model evaluation engine.
 
-- MAE
-- RMSE
-- R² Score
-- Cross Validation
-- Forecast Accuracy
+## 🧠 Explainable AI
+SHAP-powered AI explainability.
 
----
-
-# 🧠 Explainable AI
-
-SHAP analysis helps visualize:
-- feature contributions
-- prediction drivers
-- model reasoning
-- feature importance ranking
-
----
-
-# 📈 Visualization Stack
-
-- Plotly
-- Plotly Graph Objects
-- Plotly Express
-- Matplotlib
-- Seaborn
+## ⚙️ Settings
+Backend configuration and controls.
 
 ---
 
 # 🔥 Advanced Highlights
 
-✅ Dynamic ML Model Comparison  
-✅ Production-style Backend APIs  
+✅ Enterprise-grade Dashboard  
+✅ Dynamic ML Forecasting  
+✅ Ensemble Learning Models  
 ✅ Explainable AI Integration  
 ✅ Forecast Confidence Bands  
-✅ Real-time Forecast Visualization  
-✅ Advanced Ensemble Models  
-✅ Enterprise Dashboard UI  
-✅ Time-Series Aware Validation  
+✅ Production Backend APIs  
+✅ Time-Series Validation  
+✅ Multi-Model Benchmarking  
 ✅ Feature Engineering Pipeline  
-✅ Cross Validation System  
+✅ Professional Dark UI  
 
 ---
 
-# 🛠 Tech Stack
+# 🚀 Future Enhancements
 
-## Frontend
-- Streamlit
-- Plotly
-- HTML/CSS
-
-## Backend
-- FastAPI
-- Uvicorn
-
-## ML & Data
-- Scikit-learn
-- XGBoost
-- SHAP
-- Pandas
-- NumPy
-
----
-
-# 📸 Screenshots
-
-Add screenshots here:
-- Dashboard
-- Forecast Page
-- Model Comparison
-- Explainable AI
-- Model Insights
-
----
-
-# 🚀 Future Improvements
-
-- LightGBM integration
-- CatBoost integration
-- Real-time streaming forecasts
-- Authentication system
-- Docker deployment
-- Cloud deployment
-- CI/CD pipeline
-- Auto retraining
-- Hyperparameter optimization
-- Drift detection
+- LightGBM Integration
+- CatBoost Integration
+- Hyperparameter Optimization
+- Docker Deployment
+- CI/CD Pipeline
+- Drift Detection
+- Real-Time Forecast Streaming
+- Cloud Deployment
+- Auto Retraining System
 
 ---
 
@@ -365,6 +392,6 @@ Nikunj Katta
 
 ---
 
-# ⭐ If you like this project
+# ⭐ Support
 
-Give it a star on GitHub ⭐
+If you found this project useful, consider giving it a ⭐ on GitHub.
