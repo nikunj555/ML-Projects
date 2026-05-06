@@ -101,7 +101,6 @@ The platform delivers intelligent 30-day sales forecasting with confidence inter
 ---
 
 ## 🏗️ Architecture
-
 ### System Architecture
 
 ```text
@@ -159,6 +158,7 @@ Backend Architecture
 │/health  │    │ Analytics │     │ Schemas      │
 │/model   │    │ Metrics   │     │ Responses    │
 └─────────┘    └───────────┘     └──────────────┘
+
 🤖 ML Model
 Forecasting Workflow
 Historical Sales Data
@@ -191,13 +191,15 @@ Raw Date Column
       ├──► Rolling Averages
       ├──► Seasonal Signals
       └──► Discount Impact
-Model Metrics
+
+Model Metrics:
 Metric	Performance
 MAE	Low
 RMSE	Low
 R² Score	~0.85+
 Forecast Accuracy	~87%
 Confidence Interval	90–95%
+
 🛠️ Tech Stack
 Backend Technologies
 Technology	Purpose
@@ -216,10 +218,10 @@ Algorithm	Use Case
 Random Forest Regressor	Sales Forecasting
 Statistical Trend Analysis	Growth Analysis
 Rolling Window Analytics	Time-Series Insights
+
 ⚙️ Installation
 # 1. Clone Repository
 git clone https://github.com/yourusername/neuralsales.git
-
 cd neuralsales
 # 2. Create Virtual Environment
 python -m venv venv
@@ -230,22 +232,19 @@ Linux / Mac
 source venv/bin/activate
 # 3. Install Dependencies
 pip install -r requirements.txt
+
 🚀 Running the Project
 Start Backend
 cd backend
-
 uvicorn api:app --reload --host 0.0.0.0 --port 8000
+
 Start Frontend
-
 Open another terminal:
-
 cd frontend
-
 streamlit run app.py
+
 📡 API Docs
-
 Once backend is running:
-
 Swagger UI  →  http://localhost:8000/docs
 ReDoc       →  http://localhost:8000/redoc
 Key Endpoints
@@ -253,6 +252,7 @@ GET    /health
 GET    /forecast/30day
 GET    /model/info
 POST   /model/retrain
+
 📁 Project Structure
 sales_analyzer_project/
 │
@@ -274,15 +274,15 @@ sales_analyzer_project/
 │
 ├── requirements.txt
 └── README.md
+
 📊 Model Performance
-
 The forecasting engine delivers:
-
 ~87% forecasting accuracy
 Stable 30-day prediction capability
 Confidence interval forecasting
 Low RMSE & MAE
 Interactive prediction explainability
+
 🎨 UI Highlights
 Premium neon dashboard UI
 Enterprise dark theme
@@ -290,6 +290,7 @@ Responsive layout
 Animated KPI cards
 Interactive Plotly charts
 Modern forecasting dashboard design
+
 🔥 Future Enhancements
 LSTM forecasting
 Transformer-based models
@@ -298,22 +299,18 @@ Database integration
 Multi-user authentication
 Cloud deployment
 AI anomaly detection
-📜 License
 
+📜 License
 MIT License
 
 👨‍💻 Author
-
 Nikunj Katta
 AI/ML Developer · Forecast Intelligence Enthusiast
 
 ⭐ Final Note
-
 NeuralSales combines:
-
 Machine learning forecasting
 Interactive analytics
 Premium UI engineering
 Real-time business intelligence
-
 into one modern AI-powered forecasting platform.
