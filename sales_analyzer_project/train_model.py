@@ -11,33 +11,20 @@ from sklearn.metrics import (
     r2_score
 )
 
-# ================= LINEAR MODELS =================
-
 from sklearn.linear_model import (
     LinearRegression,
     Lasso,
     Ridge
 )
 
-# ================= TREE MODELS =================
-
 from sklearn.tree import DecisionTreeRegressor
-
-# ================= ENSEMBLE MODELS =================
-
 from sklearn.ensemble import (
     RandomForestRegressor,
     GradientBoostingRegressor,
     AdaBoostRegressor,
     ExtraTreesRegressor
 )
-
-# ================= SUPPORT VECTOR =================
-
 from sklearn.svm import SVR
-
-# ================= XGBOOST =================
-
 from xgboost import XGBRegressor
 
 # ================= VISUALIZATION =================
@@ -49,30 +36,16 @@ print("=" * 70)
 print("🧠 ADVANCED SALES FORECAST MODEL TRAINING")
 print("=" * 70)
 
-# =========================================================
-# CREATE DIRECTORIES
-# =========================================================
-
 os.makedirs("models", exist_ok=True)
 os.makedirs("outputs", exist_ok=True)
 
-# =========================================================
-# LOAD DATA
-# =========================================================
-
 print("\n📂 Loading dataset...")
-
 df = pd.read_csv("data/sales_data.csv")
-
 df["date"] = pd.to_datetime(df["date"])
-
 print(f"✅ Dataset Loaded Successfully")
 print(f"📊 Total Records: {len(df)}")
 
-# =========================================================
 # FEATURE SELECTION
-# =========================================================
-
 feature_cols = [
 
     "day_of_week",
@@ -106,10 +79,8 @@ for feat in available_features:
 X = df[available_features]
 y = df["sales"]
 
-# =========================================================
-# TRAIN TEST SPLIT
-# =========================================================
 
+# TRAIN TEST SPLIT
 train_size = int(len(df) * 0.8)
 
 X_train = X[:train_size]
@@ -122,16 +93,12 @@ print("\n📊 Dataset Split")
 print(f"Train Size : {len(X_train)}")
 print(f"Test Size  : {len(X_test)}")
 
-# =========================================================
-# TIME SERIES CROSS VALIDATION
-# =========================================================
 
+# TIME SERIES CROSS VALIDATION
 tscv = TimeSeriesSplit(n_splits=5)
 
-# =========================================================
-# MODELS
-# =========================================================
 
+# MODELS
 models = {
 
     "Linear Regression": LinearRegression(),
@@ -187,10 +154,8 @@ models = {
     )
 }
 
-# =========================================================
-# TRAINING
-# =========================================================
 
+# TRAINING
 results = []
 
 best_model = None
@@ -205,15 +170,15 @@ for name, model in models.items():
 
     try:
 
-        # ================= TRAIN =================
+        # TRAIN 
 
         model.fit(X_train, y_train)
 
-        # ================= PREDICT =================
+        # PREDICT 
 
         preds = model.predict(X_test)
 
-        # ================= METRICS =================
+        #  METRICS 
 
         mae = mean_absolute_error(y_test, preds)
 
@@ -227,7 +192,7 @@ for name, model in models.items():
             1 - (mae / y_test.mean())
         )
 
-        # ================= CROSS VALIDATION =================
+        #  CROSS VALIDATION 
 
         cv_scores = cross_val_score(
             model,
@@ -239,7 +204,7 @@ for name, model in models.items():
 
         cv_mean = cv_scores.mean()
 
-        # ================= SAVE RESULTS =================
+        #  SAVE RESULTS 
 
         results.append({
 
@@ -256,7 +221,7 @@ for name, model in models.items():
             "CV Mean": round(cv_mean, 4)
         })
 
-        # ================= BEST MODEL =================
+        #  BEST MODEL 
 
         if r2 > best_r2:
 
@@ -278,12 +243,9 @@ for name, model in models.items():
 
         print(f"❌ Error training {name}: {e}")
 
-# =========================================================
 # RESULTS DATAFRAME
-# =========================================================
 
 results_df = pd.DataFrame(results)
-
 results_df = results_df.sort_values(
     by="R2 Score",
     ascending=False
@@ -294,10 +256,7 @@ print("=" * 70)
 
 print(results_df.to_string(index=False))
 
-# =========================================================
 # SAVE MODEL RESULTS
-# =========================================================
-
 joblib.dump(
     results_df,
     "models/model_results.pkl"
@@ -305,9 +264,8 @@ joblib.dump(
 
 print("\n💾 models/model_results.pkl saved")
 
-# =========================================================
+
 # SAVE BEST MODEL
-# =========================================================
 
 joblib.dump(
     best_model,
@@ -316,10 +274,8 @@ joblib.dump(
 
 print("💾 models/sales_model.pkl saved")
 
-# =========================================================
-# SAVE FEATURES
-# =========================================================
 
+# SAVE FEATURES
 with open(
     "models/feature_cols.json",
     "w"
@@ -332,18 +288,11 @@ with open(
 
 print("💾 models/feature_cols.json saved")
 
-# =========================================================
 # FEATURE IMPORTANCE
-# =========================================================
-
 if hasattr(best_model, "feature_importances_"):
-
     importance_df = pd.DataFrame({
-
         "Feature": available_features,
-
         "Importance": best_model.feature_importances_
-
     })
 
     importance_df = importance_df.sort_values(
@@ -353,15 +302,13 @@ if hasattr(best_model, "feature_importances_"):
 
     print("\n🔑 FEATURE IMPORTANCE")
     print("=" * 70)
-
     print(
         importance_df.to_string(index=False)
     )
 
-    # ================= PLOT =================
+    #  PLOT 
 
     plt.figure(figsize=(12, 6))
-
     sns.barplot(
         data=importance_df,
         x="Importance",
@@ -383,10 +330,7 @@ if hasattr(best_model, "feature_importances_"):
 
     print("\n📊 outputs/feature_importance.png saved")
 
-# =========================================================
 # ACTUAL VS PREDICTED
-# =========================================================
-
 final_preds = best_model.predict(X_test)
 
 plt.figure(figsize=(10, 6))
@@ -418,10 +362,8 @@ plt.close()
 
 print("📈 outputs/actual_vs_predicted.png saved")
 
-# =========================================================
-# RESIDUAL ANALYSIS
-# =========================================================
 
+# RESIDUAL ANALYSIS
 residuals = y_test.values - final_preds
 
 plt.figure(figsize=(10, 6))
@@ -447,10 +389,7 @@ plt.close()
 
 print("📉 outputs/residual_distribution.png saved")
 
-# =========================================================
 # FINAL SUMMARY
-# =========================================================
-
 print("\n" + "=" * 70)
 
 print("✅ TRAINING COMPLETED SUCCESSFULLY")
